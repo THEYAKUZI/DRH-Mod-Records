@@ -1,4 +1,4 @@
-package mods.records;
+package mods.ultimate_records;
 
 /** The six heroes and the nine Ultimate Rampage maps, in the order the board shows them. */
 class RecData {

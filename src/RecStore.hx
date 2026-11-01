@@ -1,4 +1,4 @@
-package mods.records;
+package mods.ultimate_records;
 
 import haxe.Json;
 import sys.FileSystem;

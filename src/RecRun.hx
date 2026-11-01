@@ -1,4 +1,4 @@
-package mods.records;
+package mods.ultimate_records;
 
 /** An Ultimate Rampage run: its map, the hero, the deepest floor reached, and when. */
 class RecRun {

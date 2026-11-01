@@ -1,4 +1,4 @@
-package mods.records;
+package mods.ultimate_records;
 
 import brain.stateMachine.State;
 import brain.stateMachine.StateMachine;
