@@ -19,5 +19,7 @@ The deepest floor of each row is in gold.
 - **This week** reads the weekly scores the game's server already sends for the world map (`getIIAvatarScoreForNode`), so it includes runs played before the mod was installed.
 - **Best ever** and **Recent runs** come from the floors the mod sees you enter in Ultimate Rampage. They are saved on every floor in `records.json`, in the mod's data folder.
 - The board is the game's own town popup and buttons, from `db_UI_town.swf`, with its fonts and icons.
+- All eight heroes are shown, including Pyromancer and Dragon Knight.
+- The board fits the current window and stays centered when it is resized.
 
 It reaches the game's own classes (popups, account scores), so it is an `extends` mod: a DRH update may break it.
