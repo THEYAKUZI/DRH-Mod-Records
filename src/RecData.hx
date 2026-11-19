@@ -1,13 +1,13 @@
 package mods.ultimate_records;
 
-/** The six heroes and the nine Ultimate Rampage maps, in the order the board shows them. */
+/** The eight heroes and the nine Ultimate Rampage maps, in the order the board shows them. */
 class RecData {
 	/** GameMaster hero ids, their constants (for the default skin) and the names the game shows. */
-	public static var HERO_IDS:Array<Int> = [101, 102, 103, 104, 105, 106];
+	public static var HERO_IDS:Array<Int> = [101, 102, 103, 104, 105, 106, 107, 108];
 
-	public static var HERO_CONSTANTS:Array<String> = ["BERSERKER", "RANGER", "SORCERER", "BATTLE_CHEF", "VAMPIRE_HUNTER", "GHOST_SAMURAI"];
+	public static var HERO_CONSTANTS:Array<String> = ["BERSERKER", "RANGER", "SORCERER", "BATTLE_CHEF", "VAMPIRE_HUNTER", "GHOST_SAMURAI", "PYROMANCER", "DRAGON_KNIGHT"];
 
-	public static var HERO_NAMES:Array<String> = ["BERSERKER", "RANGER", "SORCERER", "BATTLE CHEF", "VAMPIRE HUNTER", "GHOST SAMURAI"];
+	public static var HERO_NAMES:Array<String> = ["BERSERKER", "RANGER", "SORCERER", "BATTLE CHEF", "VAMPIRE HUNTER", "GHOST SAMURAI", "PYROMANCER", "DRAGON KNIGHT"];
 
 	/** The maps' node constants (as `Floor.map`), node ids (as the weekly scores) and names. */
 	public static var MAPS:Array<String> = [

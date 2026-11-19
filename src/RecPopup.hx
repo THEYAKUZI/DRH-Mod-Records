@@ -8,17 +8,20 @@ import mods.api.account.OwnedHero;
 import openfl.display.DisplayObject;
 import openfl.display.MovieClip;
 import openfl.display.Sprite;
+import openfl.events.Event;
+import openfl.geom.Point;
+import openfl.geom.Rectangle;
 import openfl.text.TextField;
 import openfl.text.TextFormatAlign;
 
 /**
  * The records board: the game's town popup stretched to a table of the nine Ultimate Rampage maps by
- * the six heroes. Three tabs: this week's floors, from the game's server, with the legendary chests
+ * the eight heroes. Three tabs: this week's floors, from the game's server, with the legendary chests
  * earned and still to earn; the best floors ever; the last runs.
  */
 class RecPopup {
 	/** The popup's size in its own units; the game shows its popups at `SCALE`. */
-	static inline final W = 700.0;
+	static inline final W = 860.0;
 
 	static inline final H = 470.0;
 
@@ -108,8 +111,7 @@ class RecPopup {
 		// As the game's popups: a curtain over the town, the board centred over it, Escape to close.
 		facade.sceneGraphManager.showPopupCurtain();
 		facade.sceneGraphManager.addChild(holder, POPUP_LAYER);
-		frame.x = facade.stageRef.stageWidth / 2 - CX * SCALE;
-		frame.y = facade.stageRef.stageHeight / 2 - CY * SCALE;
+		facade.stageRef.addEventListener(Event.RESIZE, resize);
 		facade.menuNavigationController.pushNewLayer(NAV_LAYER, close, closeButton);
 		show(0);
 	}
@@ -118,13 +120,30 @@ class RecPopup {
 		if (!open)
 			return;
 		open = false;
+		facade.stageRef.removeEventListener(Event.RESIZE, resize);
 		facade.menuNavigationController.popLayer(NAV_LAYER);
 		facade.sceneGraphManager.removeChild(holder);
 		facade.sceneGraphManager.removePopupCurtain();
 		closeButton.destroy();
 		for (tab in tabs)
 			tab.destroy();
+		holder.removeChildren();
+		for(i in 0...bodies.length)bodies[i]=null;
+		tabs=[];body=null;texts=null;
 		onClose();
+	}
+
+	/** Fit visible art in the popup layer's coordinates, including translated/scaled layers. */
+	function resize(event:Event):Void {
+		if(!open||holder==null||holder.parent==null)return;
+		var stage=facade.stageRef;
+		var a=holder.globalToLocal(stage.localToGlobal(new Point(0,0)));
+		var b=holder.globalToLocal(stage.localToGlobal(new Point(stage.stageWidth,stage.stageHeight)));
+		var bounds:Rectangle=null;
+		for(i in 0...frame.numChildren){var child=frame.getChildAt(i);if(!child.visible)continue;var r=child.getBounds(frame);bounds=bounds==null?r:bounds.union(r);}
+		if(bounds==null||bounds.width<=0||bounds.height<=0)return;
+		var layout=RecLayout.fit(bounds.x,bounds.y,bounds.width,bounds.height,Math.min(a.x,b.x),Math.min(a.y,b.y),Math.abs(b.x-a.x),Math.abs(b.y-a.y),SCALE);
+		frame.scaleX=frame.scaleY=layout.scale;frame.x=layout.x;frame.y=layout.y;
 	}
 
 	/** The town popup, stretched to the board as the game stretches it for its larger popups. */
@@ -195,8 +214,7 @@ class RecPopup {
 			if (bodies[i] != null)
 				bodies[i].visible = i == tab;
 		}
-		if (bodies[tab] != null)
-			return;
+		if (bodies[tab] != null){resize(null);return;}
 		body = new Sprite();
 		body.mouseEnabled = false;
 		body.mouseChildren = false;
@@ -211,6 +229,7 @@ class RecPopup {
 		else
 			recent(top);
 		body.addChild(texts);
+		resize(null);
 	}
 
 	/** This week's floors, as the game's server keeps them for each hero, with the legendary chests. */
