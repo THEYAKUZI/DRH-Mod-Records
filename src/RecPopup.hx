@@ -89,6 +89,9 @@ class RecPopup {
 
 	var open:Bool = true;
 
+	/** The board's own art (frame, banner, cross, tabs), which the window is fitted to. */
+	var artBounds:Rectangle;
+
 	public function new(facade:DBFacade, art:RecArt, store:RecStore, heroes:Array<OwnedHero>, onClose:Void->Void) {
 		this.facade = facade;
 		this.art = art;
@@ -105,6 +108,14 @@ class RecPopup {
 
 		frame = art.popup();
 		layoutFrame();
+		// Measured before any tab is built: the tabs differ in size, and the board must not move between them.
+		for (i in 0...frame.numChildren) {
+			var child = frame.getChildAt(i);
+			if (!child.visible)
+				continue;
+			var r = child.getBounds(frame);
+			artBounds = artBounds == null ? r : artBounds.union(r);
+		}
 		frame.scaleX = frame.scaleY = SCALE;
 		holder = new Sprite();
 		holder.addChild(frame);
@@ -139,8 +150,7 @@ class RecPopup {
 		var stage=facade.stageRef;
 		var a=holder.globalToLocal(stage.localToGlobal(new Point(0,0)));
 		var b=holder.globalToLocal(stage.localToGlobal(new Point(stage.stageWidth,stage.stageHeight)));
-		var bounds:Rectangle=null;
-		for(i in 0...frame.numChildren){var child=frame.getChildAt(i);if(!child.visible)continue;var r=child.getBounds(frame);bounds=bounds==null?r:bounds.union(r);}
+		var bounds=artBounds;
 		if(bounds==null||bounds.width<=0||bounds.height<=0)return;
 		var layout=RecLayout.fit(bounds.x,bounds.y,bounds.width,bounds.height,Math.min(a.x,b.x),Math.min(a.y,b.y),Math.abs(b.x-a.x),Math.abs(b.y-a.y),SCALE);
 		frame.scaleX=frame.scaleY=layout.scale;frame.x=layout.x;frame.y=layout.y;
