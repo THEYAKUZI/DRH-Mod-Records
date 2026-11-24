@@ -10,8 +10,6 @@ import mods.api.Mod;
 import mods.api.dungeon.Floor;
 import openfl.display.MovieClip;
 import openfl.display.Sprite;
-import openfl.events.Event;
-import openfl.geom.Point;
 import town.HomeState;
 
 /**
@@ -132,26 +130,12 @@ class Main extends Mod {
 		clip.scaleX = clip.scaleY = BUTTON_SCALE;
 		facade.sceneGraphManager.addChild(clip, TOWN_LAYER);
 		buttonClip = clip;
-		positionButton(null);
-		facade.stageRef.addEventListener(Event.RESIZE,positionButton);
 		button = new UIButton(facade, clip);
 		button.rolloverFilter = DBGlobal.UI_ROLLOVER_FILTER;
 		button.releaseCallback = openBoard;
 	}
 
-	function positionButton(event:Event):Void {
-		if(buttonClip==null||buttonClip.parent==null||facade==null)return;
-		var stage=facade.stageRef;var parent=buttonClip.parent;
-		var top=parent.globalToLocal(stage.localToGlobal(new Point(0,0)));
-		var bottom=parent.globalToLocal(stage.localToGlobal(new Point(stage.stageWidth,stage.stageHeight)));
-		var bounds=buttonClip.getBounds(buttonClip);
-		var desired=new Point(bottom.x-60,top.y+236);
-		buttonClip.x=Math.max(top.x-bounds.x*BUTTON_SCALE+8,Math.min(bottom.x-(bounds.x+bounds.width)*BUTTON_SCALE-8,desired.x));
-		buttonClip.y=Math.max(top.y-bounds.y*BUTTON_SCALE+8,Math.min(bottom.y-(bounds.y+bounds.height)*BUTTON_SCALE-8,desired.y));
-	}
-
 	function hideButton():Void {
-		if(facade!=null)facade.stageRef.removeEventListener(Event.RESIZE,positionButton);
 		if (button != null)
 			button.destroy();
 		if (buttonClip != null && facade != null)

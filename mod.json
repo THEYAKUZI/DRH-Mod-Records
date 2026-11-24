@@ -2,10 +2,10 @@
   "id": "ultimate_records",
   "name": "Ultimate Records",
   "description": "Your best Ultimate Rampage floor for every hero on every map, this week and ever, and the legendary chests left.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "THEYAKUZI",
   "api": "1.2",
-  "drh": "15",
+  "drh": "18",
   "entry": "Main",
   "uses": ["extends"]
 }
