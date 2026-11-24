@@ -26,9 +26,6 @@ class RecArt {
 
 	static inline final CHEST = "db_items_chests_legendary";
 
-	/** Where every hero skin's icon is. */
-	static inline final AVATARS_SWF = "Resources/Art2D/Icons/Avatars/db_icons_avatars.swf";
-
 	/** The chest's own size in its symbol, around the symbol's origin. */
 	static inline final CHEST_BOX = 104.0;
 
@@ -75,8 +72,6 @@ class RecArt {
 			if (ready)
 				loaded();
 		});
-		// Loaded now, so the board's hero icons do not wait on it at its first opening.
-		loader.getSwfAsset(DBFacade.buildFullDownloadPath(AVATARS_SWF), function(_) {});
 	}
 
 	function get_ready():Bool {
